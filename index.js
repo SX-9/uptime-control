@@ -78,17 +78,17 @@ app.get('/action/shutdown/:id', (req, res) => {
     const server = db.servers[req.params.id];
     const ssh = new Client();
     ssh.on('ready', () => {
-        ssh.exec('shutdown now', (err) => {
+        ssh.exec('systemctl poweroff', (err) => {
             if (err) return res.status(500).send(err.message);
         });
     }).on('error', (e) => res.status(500).send(e.message))
     .on("close", (e) => res.send(`OK: ${e}`)).connect({
-        host: server.ssh.host,
-        port: server.ssh.port,
-        username: server.ssh.username,
-        password: server.ssh.password,
-        privateKey: server.ssh.privateKey,
-        passphrase: server.ssh.passphrase,
+        host: server.ssh?.host || 'localhost',
+        port: server.ssh?.port || 22,
+        username: server.ssh?.username || 'root',
+        password: server.ssh?.password,
+        privateKey: server.ssh?.privateKey,
+        passphrase: server.ssh?.passphrase,
     });
 });
 
@@ -97,17 +97,17 @@ app.get('/action/reboot/:id', (req, res) => {
     const server = db.servers[req.params.id];
     const ssh = new Client();
     ssh.on('ready', () => {
-        ssh.exec('shutdown -r now', (err) => {
+        ssh.exec('systemctl reboot', (err) => {
             if (err) return res.status(500).send(err.message);
         });
     }).on('error', (e) => res.status(500).send(e.message))
     .on("close", (e) => res.send(`OK: ${e}`)).connect({
-        host: server.ssh.host,
-        port: server.ssh.port,
-        username: server.ssh.username,
-        password: server.ssh.password,
-        privateKey: server.ssh.privateKey,
-        passphrase: server.ssh.passphrase,
+        host: server.ssh?.host || 'localhost',
+        port: server.ssh?.port || 22,
+        username: server.ssh?.username || 'root',
+        password: server.ssh?.password,
+        privateKey: server.ssh?.privateKey,
+        passphrase: server.ssh?.passphrase,
     });
 });
 
