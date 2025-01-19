@@ -1,0 +1,18 @@
+[Unit]
+Description=Uptime Control Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/node index.js
+Restart=always
+Environment=NODE_ENV=production
+Environment=API_DB_PATH=/etc/uptime-control/db.json
+Environment=API_PORT=3000
+
+WorkingDirectory=/PATH_TO_UPTIME_CONTROL
+Environment=API_USR=admin
+Environment=API_PASSWD=password
+# CHANGE ME ^^^^^
+
+[Install]
+WantedBy=multi-user.target
